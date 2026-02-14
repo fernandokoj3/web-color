@@ -32,4 +32,4 @@ USER ${USER_IMG}
 
 EXPOSE 5000
 
-#CMD ["uvicorn", "app.main:create_fastapi_application", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["gunicorn", "app.main:create_fastapi_application", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000"]

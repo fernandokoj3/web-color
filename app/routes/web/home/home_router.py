@@ -8,7 +8,7 @@ router = APIRouter(
     tags=["Home"]
 )
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -16,7 +16,7 @@ def home(request: Request):
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     return templates.TemplateResponse(
-        "index-yellow.html",
+        "index-green.html",
         {
             "request": request,
             "hostname": hostname,
