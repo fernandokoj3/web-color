@@ -1,0 +1,9 @@
+aiohttp[speedups]
+uvicorn[standard]
+gunicorn
+fastapi
+pydantic
+pydantic-core
+pydantic-settings
+jinja2
+Werkzeug

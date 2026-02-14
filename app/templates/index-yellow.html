@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Machine Info</title>
+
+  <style>
+    :root{
+      --bg1: #5a4300;
+      --bg2: #d4a100;
+      --card: rgba(255,255,255,.08);
+      --cardBorder: rgba(255,255,255,.18);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --accent: #ffd34d;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(1000px 800px at 80% 90%, rgba(0,0,0,.25), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
+    }
+
+    .wrap{
+      width: min(900px, 100%);
+      display:grid;
+      gap: 18px;
+    }
+
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      opacity: .95;
+    }
+
+    .dot{
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow:
+        0 0 0 6px rgba(255,211,77,.18),
+        0 0 40px rgba(255,211,77,.45);
+    }
+
+    .brand h1{
+      margin:0;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .pill{
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
+      color: var(--muted);
+      font-size: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow:hidden;
+    }
+
+    .cardTop{
+      padding: 22px 22px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 16px;
+    }
+
+    .title{
+      margin:0;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .subtitle{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px 22px 22px;
+    }
+
+    .item{
+      background: rgba(0,0,0,.14);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 16px;
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+
+    .icon{
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      flex: 0 0 auto;
+    }
+
+    .label{
+      margin:0;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    .value{
+      margin: 6px 0 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      word-break: break-word;
+    }
+
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 750;
+      font-size: 16px;
+      opacity: .95;
+    }
+
+    .footer{
+      padding: 12px 22px 18px;
+      color: rgba(255,255,255,.60);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    @media (max-width: 640px){
+      .grid{ grid-template-columns: 1fr; }
+      .title{ font-size: 22px; }
+      .cardTop{ flex-direction: column; align-items:flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="dot"></div>
+        <h1>FastAPI Status</h1>
+      </div>
+      <div class="pill">🟡 Yellow Deployment</div>
+    </div>
+
+    <div class="card">
+      <div class="cardTop">
+        <div>
+          <h2 class="title">Processed by</h2>
+          <p class="subtitle">Informações da instância atual (útil p/ validar balanceamento / pod / node).</p>
+        </div>
+        <div class="pill">Env: {{ env or "local" }}</div>
+      </div>
+
+      <div class="grid">
+        <div class="item">
+          <div class="icon">🖥️</div>
+          <div>
+            <p class="label">Machine</p>
+            <p class="value mono">{{ hostname }}</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="icon">🌐</div>
+          <div>
+            <p class="label">Address</p>
+            <p class="value mono">{{ ip_address }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>App: {{ app_name }}</span>
+        <span>{{ now }}</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
